@@ -18,17 +18,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Install Gradle
-        run: |
-          wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip
-          unzip -q gradle-8.4-bin.zip
-          export PATH=$PATH:$(pwd)/gradle-8.4/bin
-          gradle wrapper
-          chmod +x gradlew
+        run: sudo apt-get install -y gradle
+
+      - name: Create Gradle Wrapper
+        run: gradle wrapper --gradle-version=8.4 --distribution-type=bin
 
       - name: Build Debug APK
-        run: |
-          export PATH=$PATH:$(pwd)/gradle-8.4/bin
-          ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
